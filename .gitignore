@@ -1,3 +1,4 @@
 .vscode/tags
 .vscode/settings.json
 .DS_Store
+*/.pyc
