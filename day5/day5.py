@@ -7,7 +7,7 @@ Solution to Advent of Code 2017 Day 5 problems
 INPUT_FILE = 'day5/input'
 
 def test_traverse():
-    assert traverse([0, 3, 0, 1, -3]) == 5
+    assert traverse([0, 3, 0, 1, -3]) == 10
 
 def load_jump_list():
     jump_list = []
@@ -21,7 +21,16 @@ def traverse(jump_list):
     iptr = 0
     while 0 <= iptr and iptr < len(jump_list):
         offset = jump_list[iptr]
-        jump_list[iptr] += 1
+
+        # Part 1
+        # jump_list[iptr] += 1
+
+        # Part 2
+        if offset >= 3:
+            jump_list[iptr] -= 1
+        else:
+            jump_list[iptr] += 1
+
         iptr += offset
         steps += 1
     return steps
