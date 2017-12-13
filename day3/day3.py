@@ -14,21 +14,22 @@ def largest_square_under(number):
     return floor(sqrt(number))
 
 def ring_num(number):
-    """Returns which ring a number is in"""
     odd_sq = closest_odd(largest_square_under(number))
     return (odd_sq + 1) // 2 if odd_sq ** 2 >= number else (odd_sq + 1) // 2 + 1
+
+def bottom_right_corner(number):
+    """Returns which ring a number is in"""
+    return (ring_num(number) * 2 - 1) ** 2
+
 
 def manhattan_dist(number):
     """ Finds Manhattan distance between `number` and 1 in the
         grid center.
     """
-    steps = ring_num(number)
-
-
+    return abs(number - bottom_right_corner(number))
 
 def main():
     """Main function"""
-    print(manhattan_dist(325489))
 
 if __name__ == '__main__':
     main()
