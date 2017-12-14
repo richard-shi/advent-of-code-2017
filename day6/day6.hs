@@ -2,11 +2,13 @@
 import Data.List (elemIndex)
 import Data.Maybe (fromJust)
 import Data.Set (Set)
+import Data.Map (Map)
 import qualified Data.Set as Set
+import qualified Data.Map as Map
 import ListZipper
 
 -- Debug
-import Debug.Trace
+-- import Debug.Trace
 
 incrementFirstN :: (Num a, Show a) => Int -> ListZipper a -> ListZipper a
 incrementFirstN 0 x = x
@@ -41,13 +43,22 @@ nextState xs = distribute max startFrom $ toList $ updateAt pos 0 $ fromList xs
 seenOld :: [Int] -> Int
 seenOld xs = seenSetCount 0 Set.empty xs
 
+seenOldLoop :: [Int] -> Int
+seenOldLoop xs = seenLoopCount 0 Map.empty xs
+
 seenSetCount :: Int -> Set [Int] -> [Int] -> Int
 seenSetCount count set xs =
     if Set.member xs set
         then count
         else seenSetCount (count + 1) (Set.insert xs set) (nextState xs)
 
+seenLoopCount :: Int -> Map [Int] Int -> [Int] -> Int
+seenLoopCount count m xs =
+    if Map.member xs m
+        then count - (fromJust $ Map.lookup xs m)
+        else seenLoopCount (count + 1) (Map.insert xs count m) (nextState xs)
+
 main = do
     let initial = [0, 5, 10, 0, 11, 14, 13, 4, 11, 8, 8, 7, 1, 4, 12, 11]
-    print $ seenOld initial
+    print $ seenOldLoop initial
 
