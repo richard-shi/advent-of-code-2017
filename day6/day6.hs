@@ -11,11 +11,11 @@ import Debug.Trace
 incrementFirstN :: (Num a, Show a) => Int -> ListZipper a -> ListZipper a
 incrementFirstN 0 x = x
 incrementFirstN n x =
-    trace ("incrementFirstN: n = " ++ show n ++ " x= " ++ show x) $ incrementFirstN (n - 1) $ goForwardLoopBack $ update ((+1) $ get x) x
+    incrementFirstN (n - 1) $ goForwardLoopBack $ update ((+1) $ get x) x
 
 -- Distribute a number of increments
 distribute :: Int -> Int -> [Int] -> [Int]
-distribute n pos xs = trace ("\ndistribute: n = " ++ show n ++ " pos = " ++ show pos ++ " xs = " ++ show xs) $
+distribute n pos xs =
     distributeExtra extraInc pos $ map (+commonInc) xs
     where len = length xs
           commonInc = quot n len
@@ -23,7 +23,7 @@ distribute n pos xs = trace ("\ndistribute: n = " ++ show n ++ " pos = " ++ show
 
 -- Distribute extra increments
 distributeExtra :: Int -> Int -> [Int] -> [Int]
-distributeExtra n pos xs = trace ("distributeExtra: n = " ++ show n ++ " pos = " ++ show pos ++ " xs = " ++ show xs) $
+distributeExtra n pos xs =
     toList $ incrementFirstN n $ goToIndex pos $ fromList xs
 
 -- Get next state of computation
